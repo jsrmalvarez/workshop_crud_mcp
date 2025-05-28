@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 class ItemBase(BaseModel):
     title: str
@@ -9,6 +9,12 @@ class ItemBase(BaseModel):
 
 class ItemCreate(ItemBase):
     pass
+
+class ItemBatchCreate(BaseModel):
+    items: List[ItemCreate]
+
+class ItemBatchDelete(BaseModel):
+    item_ids: List[int]
 
 class ItemUpdate(ItemBase):
     title: Optional[str] = None
@@ -21,3 +27,7 @@ class ItemResponse(ItemBase):
 
     class Config:
         orm_mode = True
+
+class BatchResponse(BaseModel):
+    success: List[ItemResponse]
+    failed: List[dict]
