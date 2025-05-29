@@ -25,6 +25,9 @@ services:
     build: 
       context: ../backend
       dockerfile: ../docker/backend.Dockerfile
+    # TODO: This is a hack to make shutdown time faster.
+    # But SIGTERM should be handled properly in the application.
+    init: true
     container_name: crud_backend
     restart: always
     ports:
@@ -34,7 +37,9 @@ services:
       - DB_PORT=3306
       - DB_USER=root
       - DB_PASSWORD=password
-      - DB_NAME=crud_db      
+      - DB_NAME=crud_db
+      # We can choose between mysql for production or sqlite (in-memory) for development.
+      - DB_TYPE=mysql
     depends_on:
       - mariadb
     networks:
