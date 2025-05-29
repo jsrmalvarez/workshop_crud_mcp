@@ -6,18 +6,18 @@ BASE_URL = "http://localhost:8000/api"
 def test_create_and_delete_item():
     # Test creating an item
     item_data = {
-        "name": "Test Item",
+        "title": "Test Item",
         "description": "Test Description",
-        "price": 10.99
+        "is_active": True
     }
     
     # Create item
     response = requests.post(f"{BASE_URL}/items/", json=item_data)
     assert response.status_code == 201
     created_item = response.json()
-    assert created_item["name"] == item_data["name"]
+    assert created_item["title"] == item_data["title"]
     assert created_item["description"] == item_data["description"]
-    assert created_item["price"] == item_data["price"]
+    assert created_item["is_active"] == item_data["is_active"]
     
     # Clean up - delete the item
     item_id = created_item["id"]
@@ -27,9 +27,9 @@ def test_create_and_delete_item():
 def test_create_read_update_delete_flow():
     # Create an item
     item_data = {
-        "name": "CRUD Test Item",
+        "title": "CRUD Test Item",
         "description": "Test CRUD operations",
-        "price": 15.99
+        "is_active": True
     }
     
     # Create
@@ -46,14 +46,14 @@ def test_create_read_update_delete_flow():
     
     # Update
     update_data = {
-        "name": "Updated CRUD Test Item",
-        "price": 20.99
+        "title": "Updated CRUD Test Item",
+        "is_active": False
     }
     response = requests.put(f"{BASE_URL}/items/{item_id}", json=update_data)
     assert response.status_code == 200
     updated_item = response.json()
-    assert updated_item["name"] == update_data["name"]
-    assert updated_item["price"] == update_data["price"]
+    assert updated_item["title"] == update_data["title"]
+    assert updated_item["is_active"] == update_data["is_active"]
     assert updated_item["description"] == item_data["description"]  # Unchanged
     
     # Delete
@@ -63,8 +63,8 @@ def test_create_read_update_delete_flow():
 def test_list_items():
     # Create two items
     items_data = [
-        {"name": "List Item 1", "description": "First test item", "price": 10.99},
-        {"name": "List Item 2", "description": "Second test item", "price": 20.99}
+        {"title": "List Item 1", "description": "First test item", "is_active": True},
+        {"title": "List Item 2", "description": "Second test item", "is_active": True}
     ]
     
     created_items = []
@@ -92,23 +92,26 @@ def test_batch_operations():
     # Test batch create
     items_to_create = {
         "items": [
-            {"name": "Batch Item 1", "description": "First batch item", "price": 10.99},
-            {"name": "Batch Item 2", "description": "Second batch item", "price": 20.99}
+            {"title": "Batch Item 1", "description": "First batch item", "is_active": True},
+            {"title": "Batch Item 2", "description": "Second batch item", "is_active": True}
         ]
     }
     
     response = requests.post(f"{BASE_URL}/items/batch", json=items_to_create)
+    print(f"Batch create response: {response.text}")  # Print the full response for debugging
     assert response.status_code == 201
     batch_result = response.json()
     assert len(batch_result["success"]) == 2
     assert len(batch_result["failed"]) == 0
-    
-    # Get the created item IDs
+      # Get the created item IDs
     created_ids = [item["id"] for item in batch_result["success"]]
+    print(f"Created IDs: {created_ids}")  # Debug print
     
     # Test batch delete
     delete_data = {"item_ids": created_ids}
+    print(f"Delete request data: {delete_data}")  # Debug print
     response = requests.delete(f"{BASE_URL}/items/batch", json=delete_data)
+    print(f"Delete response: {response.text}")  # Debug print
     assert response.status_code == 200
     delete_result = response.json()
     assert len(delete_result["success"]) == 2

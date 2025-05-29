@@ -26,8 +26,11 @@ class ItemResponse(ItemBase):
     updated_at: Optional[datetime] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class BatchResponse(BaseModel):
     success: List[ItemResponse]
     failed: List[dict]
+
+    class Config:
+        from_attributes = True
