@@ -33,13 +33,14 @@ services:
     ports:
       - "8000:8000"
     environment:
+      # production or development
+      - ENVIRONMENT=development
+      # database
       - DB_HOST=mariadb
       - DB_PORT=3306
       - DB_USER=root
       - DB_PASSWORD=password
-      - DB_NAME=crud_db
-      # We can choose between mysql for production or sqlite (in-memory) for development.
-      - DB_TYPE=mysql
+      - DB_NAME=crud_db            
     depends_on:
       - mariadb
     networks:

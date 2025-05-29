@@ -10,7 +10,7 @@ def init_mysql() -> Dict[str, Any]:
     
     return database_mysql.create_db()
 
-if os.environ.get("DB_TYPE") == "mysql":
+if os.environ.get("ENVIRONMENT") == "production":
     # Initialize MySQL database
     db_components = init_mysql()
 else:
