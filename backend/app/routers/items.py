@@ -5,8 +5,12 @@ from typing import List
 from app.core.database import get_db
 from app.models import models
 from app.schemas.item import ItemCreate, ItemUpdate, ItemResponse, BatchResponse, ItemBatchCreate, ItemBatchDelete
-
+import os
 router = APIRouter(tags=["items"], prefix="/items")
+
+@router.get("/environment", response_model=str, status_code=status.HTTP_200_OK)
+def get_environment():
+    return os.environ.get("ENVIRONMENT", "unknown")
 
 # Batch operations first
 @router.post("/batch", response_model=BatchResponse, status_code=status.HTTP_201_CREATED)

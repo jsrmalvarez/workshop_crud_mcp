@@ -3,6 +3,20 @@ import requests
 
 BASE_URL = "http://localhost:8000/api"
 
+@pytest.fixture(scope="session", autouse=True)
+def check_environment():
+    """Check if the backend is running and in development mode before running any tests"""
+    try:
+        response = requests.get(f"{BASE_URL}/items/environment")
+        if response.status_code != 200:
+            pytest.exit("Backend server is not responding correctly")
+        
+        env = response.text.strip('"')  # FastAPI wraps strings in quotes
+        if env != "development":
+            pytest.exit(f"Backend is not in development mode. Current environment: {env}")
+    except requests.ConnectionError:
+        pytest.exit("Cannot connect to backend server. Is it running at localhost:8000?")
+
 def test_create_and_delete_item():
     # Test creating an item
     item_data = {
