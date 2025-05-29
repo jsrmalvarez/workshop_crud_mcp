@@ -25,16 +25,22 @@ services:
     build: 
       context: ../backend
       dockerfile: ../docker/backend.Dockerfile
+    # TODO: This is a hack to make shutdown time faster.
+    # But SIGTERM should be handled properly in the application.
+    init: true
     container_name: crud_backend
     restart: always
     ports:
       - "8000:8000"
     environment:
+      # production or development
+      - ENVIRONMENT=development
+      # database
       - DB_HOST=mariadb
       - DB_PORT=3306
       - DB_USER=root
       - DB_PASSWORD=password
-      - DB_NAME=crud_db      
+      - DB_NAME=crud_db            
     depends_on:
       - mariadb
     networks:
