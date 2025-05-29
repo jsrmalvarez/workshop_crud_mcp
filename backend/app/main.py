@@ -25,11 +25,13 @@ app.add_middleware(
 app.include_router(items.router, prefix="/api")
 
 
+# TODO: substitute deprecated method
 @app.on_event("startup")
 async def startup_event():
     """Initialize database tables on startup."""
     models.Base.metadata.create_all(bind=engine)
-
+    
+# TODO: substitute deprecated method
 @app.on_event("shutdown")
 async def shutdown_event():
     """Clean up database connections on shutdown."""

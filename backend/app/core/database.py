@@ -1,22 +1,24 @@
+from typing import Dict, Any
+from app.core import database_sqlite, database_mysql
 import os
-from dotenv import load_dotenv
-from app.core import database_mysql, database_sqlite
+def init_sqlite() -> Dict[str, Any]:
+    """Initialize SQLite database"""    
+    return database_sqlite.create_db()
 
-# Load environment variables from .env file
-load_dotenv()
+def init_mysql() -> Dict[str, Any]:
+    """Initialize MySQL database with given credentials"""
+    
+    return database_mysql.create_db()
 
-# Get database type from environment variable
-DB_TYPE = os.environ.get("DB_TYPE", "mysql").lower()
-
-if DB_TYPE == "mysql":
-    # Use MySQL database
-    engine = database_mysql.engine
-    SessionLocal = database_mysql.SessionLocal
-    Base = database_mysql.Base
-    get_db = database_mysql.get_db
+if os.environ.get("DB_TYPE") == "mysql":
+    # Initialize MySQL database
+    db_components = init_mysql()
 else:
-    # Use SQLite database
-    engine = database_sqlite.engine
-    SessionLocal = database_sqlite.SessionLocal
-    Base = database_sqlite.Base
-    get_db = database_sqlite.get_db
+    # Initialize SQLite database        
+    db_components = init_sqlite()
+    
+# Export components
+engine = db_components['engine']
+SessionLocal = db_components['SessionLocal']
+Base = db_components['Base']
+get_db = db_components['get_db']
