@@ -5,7 +5,7 @@ from app.core import database_mysql, database_sqlite
 # Load environment variables from .env file
 load_dotenv()
 
-# Get database type from environment variable, default to sqlite
+# Get database type from environment variable
 DB_TYPE = os.environ.get("DB_TYPE", "mysql").lower()
 
 if DB_TYPE == "mysql":
@@ -15,7 +15,7 @@ if DB_TYPE == "mysql":
     Base = database_mysql.Base
     get_db = database_mysql.get_db
 else:
-    # Use SQLite database (default)
+    # Use SQLite database
     engine = database_sqlite.engine
     SessionLocal = database_sqlite.SessionLocal
     Base = database_sqlite.Base
