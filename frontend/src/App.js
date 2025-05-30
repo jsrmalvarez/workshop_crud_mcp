@@ -29,14 +29,34 @@ function App() {
     }
   };
 
-  // Add new item
-  const addItem = async (newItem) => {
+  // Submit batch of items
+  const submitBatch = async (batchItems) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/items/', newItem);
-      setItems([...items, response.data]);
+      const response = await axios.post('http://localhost:8000/api/items/batch', {
+        items: batchItems
+      });
+      
+      // Add successful items to the list
+      if (response.data.success && response.data.success.length > 0) {
+        setItems([...items, ...response.data.success]);
+      }
+
+      // Show warnings for failed items
+      if (response.data.failed && response.data.failed.length > 0) {
+        response.data.failed.forEach(failure => {
+          toast({
+            title: 'Item creation failed',
+            description: `Failed to create item "${failure.item.title}": ${failure.error}`,
+            status: 'warning',
+            duration: 5000,
+            isClosable: true,
+          });
+        });
+      }
+
       return response.data;
     } catch (error) {
-      console.error('Error adding item:', error);
+      console.error('Error submitting batch:', error);
       throw error;
     }
   };
@@ -80,7 +100,7 @@ function App() {
     <Container maxW="container.xl" py={8}>
       <Heading as="h1" mb={6} textAlign="center">CRUD Application</Heading>
       <Box mb={10}>
-        <ItemForm onAddItem={addItem} />
+        <ItemForm onSubmitBatch={submitBatch} />
       </Box>
       <ItemsList 
         items={items} 
