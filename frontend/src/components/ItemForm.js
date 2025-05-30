@@ -11,9 +11,10 @@ import {
   Heading,
   HStack,
   useToast,
-  VStack
+  VStack,
+  IconButton
 } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 
 const ItemForm = ({ onAddItem, onSubmitBatch }) => {
   const [formData, setFormData] = useState({
@@ -105,6 +106,17 @@ const ItemForm = ({ onAddItem, onSubmitBatch }) => {
     }
   };
 
+  const handleRemoveItem = (indexToRemove) => {
+    setTempItems(tempItems.filter((_, index) => index !== indexToRemove));
+    toast({
+      title: 'Item removed',
+      description: 'Item removed from batch',
+      status: 'info',
+      duration: 2000,
+      isClosable: true,
+    });
+  };
+
   return (
     <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
       <Heading size="md" mb={4}>Add New Items (Batch)</Heading>
@@ -174,9 +186,21 @@ const ItemForm = ({ onAddItem, onSubmitBatch }) => {
                 borderWidth="1px" 
                 borderRadius="md"
                 bg="gray.50"
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                <strong>{item.title}</strong> - {item.description || 'No description'} 
-                ({item.is_active ? 'Active' : 'Inactive'})
+                <Box>
+                  ({item.is_active ? 'Active' : 'Inactive'})&nbsp;<strong>{item.title}</strong> - {item.description || 'No description'}
+                </Box>
+                <IconButton
+                  icon={<DeleteIcon />}
+                  colorScheme="red"
+                  size="sm"
+                  aria-label="Remove item"
+                  onClick={() => handleRemoveItem(index)}
+                  variant="ghost"
+                />
               </Box>
             ))}
           </VStack>
