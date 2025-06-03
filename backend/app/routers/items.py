@@ -47,7 +47,7 @@ def create_items_batch(item_data: ItemBatchCreate, db: Session = Depends(get_db)
             
     return BatchResponse(success=success_items, failed=failed_items)
 
-@router.delete("/batch", status_code=status.HTTP_200_OK, response_model=BatchResponse, operation_id="delete_items_batch")
+@router.post("/batch/delete", status_code=status.HTTP_200_OK, response_model=BatchResponse, operation_id="delete_items_batch")
 def delete_items_batch(delete_data: ItemBatchDelete, db: Session = Depends(get_db)):
     """Delete multiple items in a single request.
     

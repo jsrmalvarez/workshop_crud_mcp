@@ -72,12 +72,11 @@ function App() {
       throw error;
     }
   };
-
   // Delete items in batch
   const deleteItemsBatch = async (itemIds) => {
     try {
-      const response = await axios.delete('http://localhost:8000/api/items/batch', {
-        data: { item_ids: itemIds }
+      const response = await axios.post(`http://localhost:8000/api/items/batch/delete`, {
+        item_ids: itemIds
       });
       
       // Remove successfully deleted items from the list
