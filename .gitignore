@@ -47,7 +47,9 @@ docker-compose.override.yml
 
 # IDE specific files
 .idea/
-.vscode/
+.vscode/*
+# Allow mcp config to be tracked
+!.vscode/mcp.json
 *.swp
 *.swo
 .DS_Store

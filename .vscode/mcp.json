@@ -1,0 +1,8 @@
+{
+    "servers": {
+        "crud-mcp": {
+            "type": "sse",
+            "url": "http://localhost:8000/mcp"
+        }
+    }
+}
