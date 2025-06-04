@@ -62,7 +62,7 @@ A full-stack CRUD (Create, Read, Update, Delete) application with:
 
 ## Environment Configuration
 
-Create a `.env` file in the backend directory with the following content:
+Create a `.env` file under the docker directory with the following content:
 
 ```env
 ENVIRONMENT=development  # or production
