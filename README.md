@@ -58,7 +58,41 @@ A full-stack CRUD (Create, Read, Update, Delete) application with:
 
 ## Prerequisites
 
-- Docker and Docker Compose
+#### Docker, able to create images and launch containers
+ 
+#### Git
+ - repo to clone from
+   https://github.com/jsrmalvarez/workshop_crud_mcp
+ 
+#### github account. This should give free accesst to copilot.
+ 
+#### VSCode (updated)
+
+#### VSCode extensions (see identifier for unambiguous identification)
+ 
+##### Git
+  - Git: vscode.git
+
+##### Github Copilot
+  - Github Copilot: github.copilot
+  - Github Copilot Chat: github.copilot-chat  
+ 
+##### Docker
+  - Container Tools: ms-azuretools.vscode-containers
+
+##### PlantUML
+  - PlantUML jebbs.plantuml  
+  - PlantUMLSyntax qhoekman.language-plantuml
+  
+Just if you want to check the code with syntax highlighting,
+as the app runs containerized:
+
+##### Backend  
+  - Python: ms-python.python
+
+##### Frontend  
+  - TypeScript and Javascript Language Features: vscode.typescript-language-features  
+
 
 ## Environment Configuration
 
